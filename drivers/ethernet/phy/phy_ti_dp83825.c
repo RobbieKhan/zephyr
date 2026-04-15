@@ -465,6 +465,11 @@ static void phy_ti_dp83825_monitor_work_handler(struct k_work *work)
 	}
 #endif /* DT_ANY_INST_HAS_PROP_STATUS_OKAY(int_gpios) */
 
+    if (!state.is_up) {
+        /* Reapply DT configuration */
+        phy_ti_dp83825_static_cfg(dev);
+    }
+
 	ret = phy_ti_dp83825_get_link(dev, &state);
 
 	if (ret == 0 && memcmp(&state, &data->state, sizeof(struct phy_link_state)) != 0) {
